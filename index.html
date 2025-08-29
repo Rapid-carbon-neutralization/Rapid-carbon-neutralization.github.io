@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人博客</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6b8cbb;
+            --text-color: #333;
+            --bg-color: #f9f9f9;
+            --card-bg: #ffffff;
+            --border-color: #eaeaea;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .dark-theme {
+            --primary-color: #6b8cbb;
+            --secondary-color: #8fa8d2;
+            --text-color: #eaeaea;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            padding: 0;
+            margin: 0;
+        }
+
+        。container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 30px;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        。header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        。logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        。theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        main {
+            grid-column: 1;
+        }
+
+        aside {
+            grid-column: 2;
+        }
+
+        。post {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        。post-header {
+            padding: 25px 25px 10px;
+        }
+
+        。post-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        。post-meta {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        。post-content {
+            padding: 0 25px 25px;
+        }
+
+        。post-excerpt {
+            margin-bottom: 20px;
+        }
+
+        。read-more {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        。read-more:hover {
+            background-color: var(--secondary-color);
+        }
+
+        。widget {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+
+        。widget-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            color: var(--primary-color);
+        }
+
+        。about-me {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        。avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 4px solid var(--primary-color);
+        }
+
+        。categories ul, .recent-posts ul {
+            list-style: none;
+        }
+
+        .categories li, .recent-posts li {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .categories li:last-child, .recent-posts li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .categories a, .recent-posts a {
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .categories a:hover, .recent-posts a:hover {
+            color: var(--primary-color);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            padding: 4px 10px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background-color: var(--card-bg);
+            padding: 30px 0;
+            margin-top: 50px;
+            text-align: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .social-links {
+            margin-bottom: 20px;
+        }
+
+        。social-links a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            margin: 0 10px;
+        }
+
+        。social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 900px) {
+            。container {
+                grid-template-columns: 1fr;
+            }
+            
+            aside {
+                grid-column: 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            。header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            。post-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">思源笔记</a>
+            <nav>
+                <ul>
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">文章</a></li>
+                    <li><a href="#">项目</a></li>
+                    <li><a href="#">关于</a></li>
+                    <li><a href="#">联系</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <article class="post">
+                <div class="post-header">
+                    <h2 class="post-title">如何提高前端开发效率</h2>
+                    <div class="post-meta">
+                        <span><i class="far fa-calendar"></i> 2023年10月15日</span>
+                        <span><i class="far fa-folder"></i> 前端开发</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p class="post-excerpt">
+                        在现代Web开发中，效率是关键。本文将分享一些提高前端开发效率的技巧和工具，包括代码编辑器扩展、调试技巧、自动化工具等，帮助您更快地构建高质量的Web应用。
+                    </p>
+                    <a href="#" class="read-more">阅读更多</a>
+                </div>
+            </article>
+
+            <article class="post">
+                <div class="post-header">
+                    <h2 class="post-title">响应式设计的最佳实践</h2>
+                    <div class="post-meta">
+                        <span><i class="far fa-calendar"></i> 2023年9月28日</span>
+                        <span><i class="far fa-folder"></i> UI/UX设计</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p class="post-excerpt">
+                        随着移动设备的普及，响应式设计已成为Web开发的标准要求。本文将探讨响应式设计的最新趋势、技术和最佳实践，帮助您创建在各种设备上都能完美显示的网站。
+                    </p>
+                    <a href="#" class="read-more">阅读更多</a>
+                </div>
+            </article>
+
+            <article class="post">
+                <div class="post-header">
+                    <h2 class="post-title">JavaScript ES2023新特性解析</h2>
+                    <div class="post-meta">
+                        <span><i class="far fa-calendar"></i> 2023年9月10日</span>
+                        <span><i class="far fa-folder"></i> JavaScript</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p class="post-excerpt">
+                        JavaScript语言每年都在演进，ES2023带来了一些令人兴奋的新特性。本文将深入探讨这些新功能，包括数组查找方法、Hashbang语法等，并提供实际使用示例。
+                    </p>
+                    <a href="#" class="read-more">阅读更多</a>
+                </div>
+            </article>
+        </main>
+
+        <aside>
+            <div class="widget about-me">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="头像" class="avatar">
+                <h3 class="widget-title">关于我</h3>
+                <p>前端开发者 & UI设计师，热爱Web技术和创意设计，喜欢分享知识和学习新事物。</p>
+            </div>
+
+            <div class="widget categories">
+                <h3 class="widget-title">分类</h3>
+                <ul>
+                    <li><a href="#">前端开发 (12)</a></li>
+                    <li><a href="#">JavaScript (8)</a></li>
+                    <li><a href="#">CSS技巧 (6)</a></li>
+                    <li><a href="#">响应式设计 (5)</a></li>
+                    <li><a href="#">性能优化 (4)</a></li>
+                </ul>
+            </div>
+
+            <div class="widget recent-posts">
+                <h3 class="widget-title">最新文章</h3>
+                <ul>
+                    <li><a href="#">如何提高前端开发效率</a></li>
+                    <li><a href="#">响应式设计的最佳实践</a></li>
+                    <li><a href="#">JavaScript ES2023新特性解析</a></li>
+                    <li><a href="#">CSS Grid布局深入理解</a></li>
+                    <li><a href="#">Web性能优化策略</a></li>
+                </ul>
+            </div>
+
+            <div class="widget tags">
+                <h3 class="widget-title">标签</h3>
+                <div class="tags">
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag">HTML</span>
+                    <span class="tag">Vue</span>
+                    <span class="tag">React</span>
+                    <span class="tag">响应式</span>
+                    <span class="tag">性能</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <footer>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-codepen"></i></a>
+        </div>
+        <p>© 2023 思源笔记 - 个人博客 | 由HTML和CSS驱动</p>
+    </footer>
+
+    <script>
+        // 主题切换功能
+        const themeToggle = document。getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // 检查本地存储中的主题偏好
+        if (localStorage.getItem('theme') === 'dark') {
+            document。body。classList。add('dark-theme');
+            themeIcon。classList。remove('fa-moon');
+            themeIcon。classList。add('fa-sun');
+        }
+        
+        themeToggle。addEventListener('click'， () => {
+            document。body。classList。toggle('dark-theme');
+            
+            if (document。body.classList。contains('dark-theme')) {
+                localStorage.setItem('theme', 'dark');
+                themeIcon。classList。remove('fa-moon');
+                themeIcon。classList。add('fa-sun');
+            } else {
+                localStorage。setItem('theme'， 'light');
+                themeIcon。classList。remove('fa-sun');
+                themeIcon。classList。add('fa-moon');
+            }
+        });
+    </script>
+</body>
+</html>
